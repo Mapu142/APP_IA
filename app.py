@@ -11,7 +11,7 @@ from sklearn.metrics import classification_report, accuracy_score
 # =============================
 df = pd.read_excel("denuncias.xlsx", sheet_name=0)
 df.head(10)
-print('hello')
+
 X = df["texto"]
 y = df["delito"]
 
