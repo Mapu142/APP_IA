@@ -8,12 +8,16 @@ from sklearn.metrics import classification_report, accuracy_score
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay
+import streamlit as st
 
+
+st.set_page_config(page_title="Clasificador", layout="centered")
+st.title("Clasificación de Denuncias")
 # =============================
 # CARGA DE DATOS
 # =============================
 df = pd.read_excel("denuncias.xlsx", sheet_name=0)
-df.head(10)
+st.dataframe(df.head())
 
 X = df["texto"]
 y = df["delito"]
