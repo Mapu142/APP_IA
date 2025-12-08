@@ -17,7 +17,8 @@ st.title("Clasificación de Denuncias")
 # CARGA DE DATOS
 # =============================
 df = pd.read_excel("denuncias.xlsx", sheet_name=0)
-st.dataframe(df.head())
+st.write("Describe lo que te ocurrió y el sistema clasificará el tipo de delito.")
+df.head()
 
 X = df["texto"]
 y = df["delito"]
@@ -69,3 +70,33 @@ plt.show()
 # =============================
 joblib.dump(pipeline, "modelo_denuncias.pkl")
 print("✅ Modelo guardado como modelo_denuncias.pkl")
+# =============================
+# MOSTRAR MODELO
+# =============================
+modelo = joblib.load("modelo_clasificador.pkl")
+# Caja de texto
+texto_usuario = st.text_area(
+    "Escribe aquí tu situación:",
+    placeholder="Ejemplo: Me robaron el celular con un cuchillo en la calle..."
+)
+# Botón de predicción
+if st.button("Clasificar"):
+    if texto_usuario.strip() == "":
+        st.warning("Por favor escribe una descripción del hecho.")
+    else:
+        prediccion = modelo.predict([texto_usuario])[0]
+
+        st.success(f"🔎 Clasificación del hecho: **{prediccion}**")
+
+        # (Opcional) Probabilidades
+        if hasattr(modelo, "predict_proba"):
+            probs = modelo.predict_proba([texto_usuario])[0]
+            clases = modelo.classes_
+
+            resultado = pd.DataFrame({
+                "Delito": clases,
+                "Probabilidad": probs
+            }).sort_values(by="Probabilidad", ascending=False)
+
+            st.write("📊 Probabilidades:")
+            st.dataframe(resultado)
