@@ -73,7 +73,7 @@ print("✅ Modelo guardado como modelo_denuncias.pkl")
 # =============================
 # MOSTRAR MODELO
 # =============================
-modelo = joblib.load("modelo_clasificador.pkl")
+modelo = joblib.load("modelo_denuncias.pkl")
 # Caja de texto
 texto_usuario = st.text_area(
     "Escribe aquí tu situación:",
